@@ -23,10 +23,12 @@
 (defn check-binary-constraints 
   "checks the given domains for all binary constraints"
   ([domains binary-constraints]
-    (check-binary-constraints 
-      domains 
-      binary-constraints 
-      (to-arcs binary-constraints)))
+    (if (empty? binary-constraints)
+      domains
+      (check-binary-constraints 
+        domains 
+        binary-constraints 
+        (to-arcs binary-constraints))))
   
   ([domains binc agenda]
     (let [[[x y] preds & rest] agenda
