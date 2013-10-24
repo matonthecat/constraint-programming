@@ -18,5 +18,20 @@
     (is (contains? result #{'x 'y}))
     (is (= (result #{'x 'y}) [['(x y) [>]]]))))
 
+(deftest test-to-arcs-noarcs 
+    (is (= (to-arcs {}) {})))
+
 (deftest test-arc-reduce
   (is (= (arc-reduce < [1 2 3] [3 4 5]) [1 2 3])))
+
+(deftest test-ac3-simple
+  (let [domains {'x [1 2 3]}
+        unary-constraints {'x [(partial < 1)]}]
+    (is (= (ac3 domains unary-constraints {})
+           {'x [2 3]}))))
+
+(deftest test-ac3-simple+
+  (let [domains {'x [1 2 3]}
+        unary-constraints {'x [(partial < 1)]}]
+    (is (= (check-unary-constraints domains unary-constraints)
+           {'x [2 3]}))))
