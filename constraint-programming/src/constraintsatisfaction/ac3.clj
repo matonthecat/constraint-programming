@@ -1,16 +1,5 @@
 (ns constraintsatisfaction.ac3)
 
-(defprotocol Constraint
-  (args [this]))
-
-(defrecord BinaryConstraint [pred x y]
-  Constraint
-  (args [this] [x y]))
-
-(defrecord UnaryConstraint [pred x]
-  Constraint
-  (args [this] [x]))
-
 ; domains:            {x [1 2 3], y [3 4 5]}
 ; unary-constraints:  [[x [(partial > 1)]] ...] aka. {x [(partial < 1)] ...}
 ; binary-constraints: [[[x y] [> <=]] ...]      aka. {#{x y} [> <=]}
