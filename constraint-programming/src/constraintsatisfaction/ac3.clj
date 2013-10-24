@@ -40,5 +40,6 @@
           nil))))))
 
 (defn ac3 [domains unary-constraints binary-constraints]
-  (let [domains (check-unary-constraints domains unary-constraints)]
-    (check-binary-constraints domains binary-constraints)))
+  (-> domains 
+    (check-unary-constraints  unary-constraints)
+    (check-binary-constraints binary-constraints)))
