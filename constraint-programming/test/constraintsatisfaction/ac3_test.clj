@@ -15,22 +15,23 @@
 
 (deftest test-check-binary-constraints 
   "tests fn check-binary-constraints"
-  (let [domains {'x [1 2 3] 'y [3 4 5]}
-        binary-constraints {'(x y) [<]}
+  (let [domains {'x [1 2 3 4] 'y [3 4 5]}
+        binary-constraints {'(x y) [>]}
         result (check-binary-constraints domains binary-constraints)]
-    (is (= (result 'x) [1 2]))))
+    (is (not (nil? result)))
+    (if result (is (= (result 'y) [3])))
+    (if result (is (= (result 'x) [4])))
+    ))
 
 (deftest test-to-arcs 
-  (let [result (to-arcs {'(x y) [>]})]
-    (is (contains? result #{'x 'y}))
-    (is (= (result #{'x 'y}) [['(x y) [>]]]))))
+  (is (= (to-arcs {'(x y) [>]}) '((x y) (y x)))))
 
 (deftest test-to-arcs-noarcs 
-    (is (= (to-arcs {}) {})))
+    (is (empty? (to-arcs {}))))
 
 (deftest test-arc-reduce
-  (is (= (arc-reduce < [1 2 3] [3 4 5]) [1 2 3]))
-  (is (= (arc-reduce >= [1 2 3] [3 4 5]) [3])))
+  (is (= (arc-reduce-x < [1 2 3 6] [3 4 5]) [1 2 3]))
+  (is (= (arc-reduce-y >= [1 2 3 5] [3 4 6]) [3 4])))
 
 (deftest test-ac3-simple
   (let [domains {'x [1 2 3]}
